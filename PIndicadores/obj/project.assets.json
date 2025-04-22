@@ -3884,11 +3884,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Isabel Velez\\Desktop\\Proyecto\\ProyectoIndicadores\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj",
+      "projectUniqueName": "C:\\Users\\Isabel Velez\\Desktop\\Proyecto\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj",
       "projectName": "PIndicadores",
-      "projectPath": "C:\\Users\\Isabel Velez\\Desktop\\Proyecto\\ProyectoIndicadores\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj",
+      "projectPath": "C:\\Users\\Isabel Velez\\Desktop\\Proyecto\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj",
       "packagesPath": "C:\\Users\\Isabel Velez\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Isabel Velez\\Desktop\\Proyecto\\ProyectoIndicadores\\ProyectoIndicadores\\PIndicadores\\obj\\",
+      "outputPath": "C:\\Users\\Isabel Velez\\Desktop\\Proyecto\\ProyectoIndicadores\\PIndicadores\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

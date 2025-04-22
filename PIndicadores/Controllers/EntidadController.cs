@@ -30,40 +30,61 @@ namespace PIndicadores.Controllers
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
+// Permite que este método se ejecute sin necesidad de autenticación.
 [AllowAnonymous]
+
+// Indica que este método se ejecuta cuando se hace una petición HTTP GET.
 [HttpGet]
+
+// Acción que lista registros de una tabla, con posibilidad de incluir descripciones de llaves foráneas.
 public IActionResult Listar(string nombreProyecto, string nombreTabla)
 {
+    // Si el nombre de la tabla está vacío o en blanco, retorna un error 400 (BadRequest).
     if (string.IsNullOrWhiteSpace(nombreTabla))
         return BadRequest("El nombre de la tabla no puede estar vacío.");
 
     try
     {
-        // Paso 1: preparar SELECT y JOINs
+        // Paso 1: Construir la parte base del SELECT (consulta SQL).
+        // Se seleccionan todas las columnas de la tabla principal.
         string selectBase = $"SELECT {nombreTabla}.*";
+
+        // Variable que almacenará los posibles JOINs con otras tablas.
         string joins = "";
 
-        // Paso 2: obtener columnas de la tabla
-        controlConexion.AbrirBd();
+        // Paso 2: Obtener todas las columnas de la tabla que se va a consultar.
+        controlConexion.AbrirBd(); // Abre la conexión a la base de datos.
+
         var columnasTabla = controlConexion.EjecutarConsultaSql($@"
             SELECT COLUMN_NAME 
             FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_NAME = '{nombreTabla}'", null);
-        controlConexion.CerrarBd();
+            WHERE TABLE_NAME = '{nombreTabla}'", null); // Consulta al diccionario de datos del sistema.
 
+        controlConexion.CerrarBd(); // Cierra la conexión a la base de datos.
+
+        // Recorre cada columna de la tabla obtenida.
         foreach (DataRow col in columnasTabla.Rows)
         {
+            // Convierte el nombre de la columna a string.
             string colName = col["COLUMN_NAME"].ToString() ?? "";
 
+            // Si la columna empieza por "fkid", se asume que es una llave foránea.
             if (colName.StartsWith("fkid"))
             {
-                string tablaRelacionada = colName.Substring(4); // Ej: "fkidtipoactor" -> "tipoactor"
+                // Se extrae el nombre de la tabla relacionada quitando el "fkid".
+                string tablaRelacionada = colName.Substring(4); // Ejemplo: fkidactor -> actor
+
+                // Se obtiene el nombre de la columna descriptiva de la tabla relacionada (ej. "nombre").
                 string? columnaDesc = ObtenerColumnaDescripcion(tablaRelacionada);
 
+                // Si se encontró una columna descriptiva en la tabla relacionada...
                 if (!string.IsNullOrEmpty(columnaDesc))
                 {
+                    // Se añade esa descripción al SELECT con un alias claro.
                     selectBase += $", {tablaRelacionada}.{columnaDesc} AS {colName}_descripcion";
 
+                    // Se añade un LEFT JOIN para unir con la tabla relacionada,
+                    // usando TRY_CAST para evitar errores de tipos de datos.
                     joins += $@"
                         LEFT JOIN {tablaRelacionada}
                         ON TRY_CAST({nombreTabla}.{colName} AS NVARCHAR) = TRY_CAST({tablaRelacionada}.id AS NVARCHAR)";
@@ -71,50 +92,77 @@ public IActionResult Listar(string nombreProyecto, string nombreTabla)
             }
         }
 
+        // Se construye el comando SQL completo con SELECT + JOINs.
         string comandoSQL = $"{selectBase} FROM {nombreTabla} {joins}";
 
-        // Paso 3: ejecutar y convertir resultados
-        var listaFilas = new List<Dictionary<string, object?>>();
-        controlConexion.AbrirBd();
-        var tablaResultados = controlConexion.EjecutarConsultaSql(comandoSQL, null);
-        controlConexion.CerrarBd();
+        // Paso 3: Ejecutar la consulta y convertir el resultado a formato JSON.
+        var listaFilas = new List<Dictionary<string, object?>>(); // Lista de diccionarios para los resultados.
 
+        controlConexion.AbrirBd(); // Abre conexión a la BD nuevamente.
+
+        // Ejecuta la consulta construida y obtiene una tabla con los datos.
+        var tablaResultados = controlConexion.EjecutarConsultaSql(comandoSQL, null);
+
+        controlConexion.CerrarBd(); // Cierra conexión.
+
+        // Recorre cada fila del resultado.
         foreach (DataRow fila in tablaResultados.Rows)
         {
+            // Convierte cada fila en un diccionario (clave: nombre columna, valor: valor del dato).
             var propiedadesFila = fila.Table.Columns.Cast<DataColumn>()
-                .ToDictionary(columna => columna.ColumnName, columna => fila[columna] == DBNull.Value ? null : fila[columna]);
+                .ToDictionary(
+                    columna => columna.ColumnName,
+                    columna => fila[columna] == DBNull.Value ? null : fila[columna]);
 
+            // Agrega el diccionario a la lista de resultados.
             listaFilas.Add(propiedadesFila);
         }
 
+        // Retorna el resultado en formato JSON con código HTTP 200 (OK).
         return Ok(listaFilas);
     }
     catch (Exception ex)
     {
+        // Si hay algún error inesperado, devuelve un código 500 (Error del servidor).
         return StatusCode(500, $"Error interno del servidor: {ex.Message}");
     }
 }
 
-// Método auxiliar para detectar la mejor columna de texto
+
+// METODO AUXILIAR para detectar la mejor columna de texto
+// Método privado que devuelve el nombre de una columna descriptiva (como "descripcion", "nombre", "titulo")
+// de una tabla relacionada, si existe. Retorna null si no encuentra una coincidencia.
 private string? ObtenerColumnaDescripcion(string nombreTablaRelacionada)
 {
     try
     {
+        // Abre la conexión a la base de datos.
         controlConexion.AbrirBd();
+
+        // Comando SQL para consultar columnas de tipo texto en la tabla relacionada.
+        // Busca solo columnas tipo varchar o nvarchar (usualmente usadas para descripciones).
         string comandoInfo = $@"
             SELECT COLUMN_NAME 
             FROM INFORMATION_SCHEMA.COLUMNS 
             WHERE TABLE_NAME = '{nombreTablaRelacionada}' 
               AND DATA_TYPE IN ('varchar', 'nvarchar')";
 
+        // Ejecuta la consulta SQL y obtiene las columnas filtradas.
         var columnas = controlConexion.EjecutarConsultaSql(comandoInfo, null);
+
+        // Cierra la conexión una vez se obtiene la información.
         controlConexion.CerrarBd();
 
+        // Lista de posibles nombres comunes que indican una descripción o texto identificativo.
         string[] posiblesNombres = { "descripcion", "nombre", "titulo" };
 
+        // Recorre cada columna para ver si su nombre coincide con uno de los esperados.
         foreach (DataRow fila in columnas.Rows)
         {
+            // Obtiene el nombre de la columna en minúsculas.
             string nombreCol = fila["COLUMN_NAME"].ToString()?.ToLower() ?? "";
+
+            // Si el nombre coincide con uno de los posibles nombres, se devuelve como resultado.
             if (posiblesNombres.Contains(nombreCol))
             {
                 return nombreCol;
@@ -123,11 +171,14 @@ private string? ObtenerColumnaDescripcion(string nombreTablaRelacionada)
     }
     catch
     {
+        // Si ocurre un error, asegura cerrar la conexión.
         controlConexion.CerrarBd();
     }
 
+    // Si no se encontró una columna válida o hubo error, retorna null.
     return null;
 }
+
 
 
 [AllowAnonymous] // Permite el acceso anónimo a este método.
