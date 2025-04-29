@@ -30,12 +30,9 @@ namespace PIndicadores.Controllers
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-// Permite que este método se ejecute sin necesidad de autenticación.
-[AllowAnonymous]
-
 // Indica que este método se ejecuta cuando se hace una petición HTTP GET.
 [HttpGet]
-
+[Authorize(Roles = "admin,Verificador,Validador")] //Define los roles tiene acceso al ENDPOINT
 // Acción que lista registros de una tabla, con posibilidad de incluir descripciones de llaves foráneas.
 public IActionResult Listar(string nombreProyecto, string nombreTabla)
 {
@@ -179,10 +176,8 @@ private string? ObtenerColumnaDescripcion(string nombreTablaRelacionada)
     return null;
 }
 
-
-
-[AllowAnonymous] // Permite el acceso anónimo a este método.
 [HttpGet("{nombreClave}/{valor}")] // Define una ruta HTTP GET con parámetros adicionales.
+[Authorize(Roles = "admin,Verificador,Validador")] //Define los roles tiene acceso al ENDPOINT
 public IActionResult ObtenerPorClave(string nombreProyecto, string nombreTabla, string nombreClave, string valor) // Método que obtiene una fila específica basada en una clave.
 {
     if (string.IsNullOrWhiteSpace(nombreTabla) || string.IsNullOrWhiteSpace(nombreClave) || string.IsNullOrWhiteSpace(valor)) // Verifica si alguno de los parámetros está vacío.
@@ -370,8 +365,8 @@ private object? ConvertirJsonElement(JsonElement elementoJson)
     }
 }
 
-[AllowAnonymous] // Permite el acceso anónimo a este método.
 [HttpPost] // Define una ruta HTTP POST para este método.
+[Authorize(Roles = "admin")] //Solo el administrador puede crear nuevas entidades
 public IActionResult Crear(string nombreProyecto, string nombreTabla, [FromBody] Dictionary<string, object?> datosEntidad)  // Crea una nueva fila en la tabla especificada.
 {
     if (string.IsNullOrWhiteSpace(nombreTabla) || datosEntidad == null || !datosEntidad.Any())  // Verifica si el nombre de la tabla o los datos están vacíos.
@@ -423,8 +418,8 @@ public IActionResult Crear(string nombreProyecto, string nombreTabla, [FromBody]
 }
 
 
-[AllowAnonymous] // Permite el acceso anónimo a este método.
 [HttpPut("{nombreClave}/{valorClave}")] // Define una ruta HTTP PUT con parámetros adicionales.
+[Authorize(Roles = "admin,Validador")] // Solo estos dos roles pueden modificar entidades
 public IActionResult Actualizar(string nombreProyecto, string nombreTabla, string nombreClave, string valorClave, [FromBody] Dictionary<string, object?> datosEntidad) // Actualiza una fila en la tabla basada en una clave.
 {
     if (string.IsNullOrWhiteSpace(nombreTabla) || string.IsNullOrWhiteSpace(nombreClave) || datosEntidad == null || !datosEntidad.Any()) // Verifica si alguno de los parámetros está vacío.
@@ -482,9 +477,8 @@ private string ObtenerPrefijoParametro(string proveedor)
     return "@"; // Para SQL Server y LocalDB, el prefijo es "@". En caso de otros proveedores, se pueden agregar más condiciones aquí.
 }
 
-
-[AllowAnonymous] // Permite el acceso anónimo a este método.
 [HttpDelete("{nombreClave}/{valorClave}")] // Define una ruta HTTP DELETE con parámetros adicionales.
+[Authorize(Roles = "admin")] //Solo el administrador puede borrar entidades
 public IActionResult Eliminar(string nombreProyecto, string nombreTabla, string nombreClave, string valorClave) // Elimina una fila de la tabla basada en una clave.
 {
     if (string.IsNullOrWhiteSpace(nombreTabla) || string.IsNullOrWhiteSpace(nombreClave)) // Verifica si alguno de los parámetros está vacío.
@@ -509,7 +503,7 @@ public IActionResult Eliminar(string nombreProyecto, string nombreTabla, string 
 }
 
 
-[AllowAnonymous] // Permite el acceso anónimo a este método.
+[AllowAnonymous] // Permite el acceso anónimo a este método, no requiere autorización, solo es informativo
 [HttpGet("/")] // Define una ruta HTTP GET en la raíz de la API.
 public IActionResult ObtenerRaiz() // Método que retorna un mensaje indicando que la API está en funcionamiento.
 {
@@ -517,8 +511,9 @@ public IActionResult ObtenerRaiz() // Método que retorna un mensaje indicando q
 }
 
 
-[AllowAnonymous] // Permite el acceso anónimo a este método.
+
 [HttpPost("verificar-contrasena")] // Define una ruta HTTP POST para verificar contraseñas.
+[Authorize(Roles = "admin")]  // Solo el administrador puede verificar las contraseñas
 public IActionResult VerificarContrasena(string nombreProyecto, string nombreTabla, [FromBody] Dictionary<string, string> datos) // Verifica si la contraseña proporcionada coincide con la almacenada.
 {
     if (string.IsNullOrWhiteSpace(nombreTabla) || datos == null || !datos.ContainsKey("campoUsuario") || !datos.ContainsKey("campoContrasena") || !datos.ContainsKey("valorUsuario") || !datos.ContainsKey("valorContrasena")) // Verifica si alguno de los parámetros está vacío.
@@ -578,8 +573,8 @@ public DbParameter CrearParametro(string nombre, object? valor)
 }
 
 
-[AllowAnonymous]
 [HttpPost("ejecutar-consulta-parametrizada")]
+[Authorize(Roles = "admin,Verificador,Validador")] // Los 3 roles tienen acceso a las consultas parametrizadas
 public IActionResult EjecutarConsultaParametrizada([FromBody] JsonElement cuerpoSolicitud)
 {
     try
@@ -648,8 +643,8 @@ public IActionResult EjecutarConsultaParametrizada([FromBody] JsonElement cuerpo
 }
 
 
-[AllowAnonymous]
 [HttpPost("ejecutar-procedimiento/{procedureName}")]
+[Authorize(Roles = "admin,Verificador,Validador")] // Solo los 3 roles tienen acceso al método
 public IActionResult EjecutarProcedimientoAlmacenado(string procedureName, [FromBody] JsonElement body)
 {
     // Verificar que el nombre del procedimiento no esté vacío
