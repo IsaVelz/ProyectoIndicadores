@@ -107,36 +107,126 @@ namespace PIndicadores.Controllers
                     case "admin":
                         rutas.AddRange(new[]
                         {
-                            "usuarios/gestion",
+                            /*"usuarios/gestion",
                             "indicadores/gestion",
                             "modulos/administracion",
-                            "modulos/configuracion"
+                            "modulos/configuracion"*/
+                            "Actor",
+                            "Articulo",
+                            "Frecuencia",
+                            "Fuente",
+                            "FuentesPorIndicador",
+                            "Indicador",
+                            "Literal",
+                            "Numeral",
+                            "Paragrafo",
+                            "RepresenVisual",
+                            "RepresenVisualPorIndicador",
+                            "ResponsablesPorIndicador",
+                            "ResultadoIndicador",
+                            "Rol",
+                            "Rol_Usuario",
+                            "Seccion",
+                            "Sentido",
+                            "Subseccion",
+                            "TipoActor",
+                            "TipoIndicador",
+                            "UnidadMedicion",
+                            "Usuario",
+                            "Variable",
+                            "VariablesPorIndicador"
                         });
                         break;
-
                     case "Verificador":
-                        rutas.Add("indicadores/consulta");
+                         rutas.AddRange(new[]
+                        {
+                            //"indicadores/consulta"//
+                            "Actor",
+                            "Articulo",
+                            "Frecuencia",
+                            "Fuente",
+                            "FuentesPorIndicador",
+                            "Indicador",
+                            "Literal",
+                            "Numeral",
+                            "Paragrafo",
+                            "RepresenVisual",
+                            "RepresenVisualPorIndicador",
+                            "ResponsablesPorIndicador",
+                            "ResultadoIndicador",
+                            "Seccion",
+                            "Sentido",
+                            "Subseccion",
+                            "TipoActor",
+                            "TipoIndicador",
+                            "UnidadMedicion",
+                            "Variable",
+                            "VariablesPorIndicador"
+                        });
+                    
                         break;
 
                     case "Validador":
                         rutas.AddRange(new[]
                         {
-                            "indicadores/consulta",
-                            "indicadores/modificar"
+                            /*"indicadores/consulta",
+                            "indicadores/modificar"*/
+                            "Actor",
+                            "Articulo",
+                            "Frecuencia",
+                            "Fuente",
+                            "FuentesPorIndicador",
+                            "Indicador",
+                            "Literal",
+                            "Numeral",
+                            "Paragrafo",
+                            "RepresenVisual",
+                            "RepresenVisualPorIndicador",
+                            "ResponsablesPorIndicador",
+                            "ResultadoIndicador",
+                            "Seccion",
+                            "Sentido",
+                            "Subseccion",
+                            "TipoActor",
+                            "TipoIndicador",
+                            "UnidadMedicion",
+                            "Variable",
+                            "VariablesPorIndicador"
                         });
                         break;
 
                     case "Administrativo":
                         rutas.AddRange(new[]
                         {
-                            "usuarios/consulta",
+                            /*"usuarios/consulta",
                             "indicadores/consulta",
-                            "modulos/consulta"
+                            "modulos/consulta"*/
+                            "Actor",
+                            "Articulo",
+                            "Frecuencia",
+                            "Fuente",
+                            "FuentesPorIndicador",
+                            "Indicador",
+                            "Literal",
+                            "Numeral",
+                            "Paragrafo",
+                            "RepresenVisual",
+                            "RepresenVisualPorIndicador",
+                            "ResponsablesPorIndicador",
+                            "ResultadoIndicador",
+                            "Seccion",
+                            "Sentido",
+                            "Subseccion",
+                            "TipoActor",
+                            "TipoIndicador",
+                            "UnidadMedicion",
+                            "Variable",
+                            "VariablesPorIndicador"
                         });
                         break;
 
                     case "invitado":
-                        rutas.Add("menu/consulta"); // Solo puede ver el menú
+                        rutas.Add("menu"); // Solo puede ver el menú
                         break;
 
                     default:

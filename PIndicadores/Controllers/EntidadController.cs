@@ -510,10 +510,8 @@ public IActionResult ObtenerRaiz() // Método que retorna un mensaje indicando q
     return Ok("La API está en funcionamiento"); // Retorna un mensaje indicando que la API está en funcionamiento.
 }
 
-
-
 [HttpPost("verificar-contrasena")] // Define una ruta HTTP POST para verificar contraseñas.
-[Authorize(Roles = "admin")]  // Solo el administrador puede verificar las contraseñas
+[AllowAnonymous] // Permite el acceso anónimo a este método
 public IActionResult VerificarContrasena(string nombreProyecto, string nombreTabla, [FromBody] Dictionary<string, string> datos) // Verifica si la contraseña proporcionada coincide con la almacenada.
 {
     if (string.IsNullOrWhiteSpace(nombreTabla) || datos == null || !datos.ContainsKey("campoUsuario") || !datos.ContainsKey("campoContrasena") || !datos.ContainsKey("valorUsuario") || !datos.ContainsKey("valorContrasena")) // Verifica si alguno de los parámetros está vacío.
