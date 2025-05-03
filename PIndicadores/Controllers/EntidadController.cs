@@ -512,56 +512,49 @@ public IActionResult ObtenerRaiz() // Método que retorna un mensaje indicando q
 
 [HttpPost("verificar-contrasena")] // Define una ruta HTTP POST para verificar contraseñas.
 [AllowAnonymous] // Permite el acceso anónimo a este método
-public IActionResult VerificarContrasena(string nombreProyecto, string nombreTabla, [FromBody] Dictionary<string, string> datos) // Verifica si la contraseña proporcionada coincide con la almacenada.
-{
-    if (string.IsNullOrWhiteSpace(nombreTabla) || datos == null || !datos.ContainsKey("campoUsuario") || !datos.ContainsKey("campoContrasena") || !datos.ContainsKey("valorUsuario") || !datos.ContainsKey("valorContrasena")) // Verifica si alguno de los parámetros está vacío.
-        return BadRequest("El nombre de la tabla, el campo de usuario, el campo de contraseña, el valor de usuario y el valor de contraseña no pueden estar vacíos."); // Retorna un error si algún parámetro está vacío.
-
-    try
+    public IActionResult VerificarContrasena(string nombreProyecto, string nombreTabla, [FromBody] Dictionary<string, string> datos)
     {
-        string campoUsuario = datos["campoUsuario"]; // Obtiene el nombre del campo de usuario.
-        string campoContrasena = datos["campoContrasena"]; // Obtiene el nombre del campo de contraseña.
-        string valorUsuario = datos["valorUsuario"]; // Obtiene el valor del usuario.
-        string valorContrasena = datos["valorContrasena"]; // Obtiene el valor de la contraseña.
-
-        string proveedor = _configuration["DatabaseProvider"] ?? throw new InvalidOperationException("Proveedor de base de datos no configurado."); // Obtiene el proveedor de base de datos.
-        string consultaSQL = $"SELECT {campoContrasena} FROM {nombreTabla} WHERE {campoUsuario} = @ValorUsuario"; // Crea la consulta SQL para obtener la contraseña almacenada.
-        var parametro = CrearParametro("@ValorUsuario", valorUsuario); // Crea el parámetro para el valor del usuario.
-
-        controlConexion.AbrirBd(); // Abre la conexión a la base de datos.
-        var resultado = controlConexion.EjecutarConsultaSql(consultaSQL, new DbParameter[] { parametro }); // Ejecuta la consulta SQL para obtener la contraseña.
-        controlConexion.CerrarBd(); // Cierra la conexión a la base de datos.
-
-        if (resultado.Rows.Count == 0) // Verifica si no se encontró el usuario.
+        if (string.IsNullOrWhiteSpace(nombreTabla) || datos == null ||
+            !datos.ContainsKey("campoUsuario") || !datos.ContainsKey("campoContrasena") ||
+            !datos.ContainsKey("valorUsuario") || !datos.ContainsKey("valorContrasena"))
         {
-            return NotFound("Usuario no encontrado."); // Retorna un error 404 si no se encontró el usuario.
+            return BadRequest(false); // respuesta JSON con false
         }
 
-        string contrasenaHasheada = resultado.Rows[0][campoContrasena]?.ToString() ?? string.Empty; // Obtiene la contraseña hasheada almacenada.
-
-        // Verifica si el hash de la contraseña es válido.
-        if (!contrasenaHasheada.StartsWith("$2"))
+        try
         {
-            throw new InvalidOperationException("El hash de la contraseña almacenada no es un hash válido de BCrypt."); // Lanza una excepción si el hash almacenado no es válido.
-        }
+            string campoUsuario = datos["campoUsuario"];
+            string campoContrasena = datos["campoContrasena"];
+            string valorUsuario = datos["valorUsuario"];
+            string valorContrasena = datos["valorContrasena"];
 
-        bool esContrasenaValida = BCrypt.Net.BCrypt.Verify(valorContrasena, contrasenaHasheada); // Verifica si la contraseña proporcionada coincide con el hash almacenado.
+            string consultaSQL = $"SELECT {campoContrasena} FROM {nombreTabla} WHERE {campoUsuario} = @ValorUsuario";
+            var parametro = CrearParametro("@ValorUsuario", valorUsuario);
 
-        if (esContrasenaValida) // Si la contraseña es válida.
-        {
-            return Ok("Contraseña verificada exitosamente."); // Retorna una respuesta de éxito.
+            controlConexion.AbrirBd();
+            var resultado = controlConexion.EjecutarConsultaSql(consultaSQL, new DbParameter[] { parametro });
+            controlConexion.CerrarBd();
+
+            if (resultado.Rows.Count == 0)
+            {
+                return Ok(false); // Usuario no encontrado → false
+            }
+
+            string contrasenaHasheada = resultado.Rows[0][campoContrasena]?.ToString() ?? string.Empty;
+
+            if (!contrasenaHasheada.StartsWith("$2"))
+            {
+                return Ok(false); // Hash no válido → false
+            }
+
+            bool esContrasenaValida = BCrypt.Net.BCrypt.Verify(valorContrasena, contrasenaHasheada);
+            return Ok(esContrasenaValida); // true o false directamente
         }
-        else // Si la contraseña no es válida.
+        catch (Exception)
         {
-            return Unauthorized("Contraseña incorrecta."); // Retorna un error 401 si la contraseña es incorrecta.
-        }
-    }
-    catch (Exception ex) // Captura cualquier excepción que ocurra durante la ejecución.
-    {
-        Console.WriteLine($"Ocurrió una excepción: {ex.Message}"); // Muestra el mensaje de la excepción en la consola.
-        return StatusCode(500, $"Error interno del servidor: {ex.Message}"); // Retorna un error 500 si ocurre una excepción.
-    }
-}
+            return StatusCode(500, false); // Error → false
+         }
+     }
 
 
 // Método para crear un parámetro de consulta SQL basado en el proveedor de base de datos.

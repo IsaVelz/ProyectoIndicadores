@@ -448,3 +448,4 @@ C:\Users\Isabel Velez\Desktop\Proyecto\ProyectoIndicadores\PIndicadores\obj\Debu
 C:\Users\Isabel Velez\Desktop\Proyecto\ProyectoIndicadores\PIndicadores\obj\Debug\net8.0\PIndicadores.pdb
 C:\Users\Isabel Velez\Desktop\Proyecto\ProyectoIndicadores\PIndicadores\obj\Debug\net8.0\PIndicadores.genruntimeconfig.cache
 C:\Users\Isabel Velez\Desktop\Proyecto\ProyectoIndicadores\PIndicadores\obj\Debug\net8.0\ref\PIndicadores.dll
+C:\Users\Isabel Velez\Desktop\ProyectoIndicadores\PIndicadores\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
