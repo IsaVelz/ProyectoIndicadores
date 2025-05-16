@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Isabel Velez\\Desktop\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj": {}
+    "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Isabel Velez\\Desktop\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj": {
+    "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Isabel Velez\\Desktop\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj",
+        "projectUniqueName": "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj",
         "projectName": "PIndicadores",
-        "projectPath": "C:\\Users\\Isabel Velez\\Desktop\\ProyectoIndicadores\\PIndicadores\\PIndicadores.csproj",
-        "packagesPath": "C:\\Users\\Isabel Velez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Isabel Velez\\Desktop\\ProyectoIndicadores\\PIndicadores\\obj\\",
+        "projectPath": "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj",
+        "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Isabel Velez\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\samue\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -53,6 +49,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.4, )"
             },
             "Microsoft.AspNetCore.Hosting.Abstractions": {
               "target": "Package",
@@ -106,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

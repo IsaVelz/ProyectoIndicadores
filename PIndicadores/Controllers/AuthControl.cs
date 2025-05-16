@@ -27,11 +27,11 @@ namespace PIndicadores.Controllers
         public IActionResult Login([FromBody] LoginModel login)
         {
             _controlConexion.AbrirBd();
-            string comandoSQL = "SELECT email FROM usuario WHERE email = @Email AND contrasena = @Contrasena";
+            string comandoSQL = "SELECT email FROM usuario WHERE email = @Email";
             var parametros = new[]
             {
                 new SqlParameter("@Email", login.Email),
-                new SqlParameter("@Contrasena", login.Contrasena)
+                //new SqlParameter("@Contrasena", login.Contrasena)
             };
             var result = _controlConexion.EjecutarConsultaSql(comandoSQL, parametros);
             _controlConexion.CerrarBd();
@@ -111,57 +111,57 @@ namespace PIndicadores.Controllers
                             "indicadores/gestion",
                             "modulos/administracion",
                             "modulos/configuracion"*/
-                            "Actor",
-                            "Articulo",
-                            "Frecuencia",
-                            "Fuente",
-                            "FuentesPorIndicador",
-                            "Indicador",
-                            "Literal",
-                            "Numeral",
-                            "Paragrafo",
-                            "RepresenVisual",
-                            "RepresenVisualPorIndicador",
-                            "ResponsablesPorIndicador",
-                            "ResultadoIndicador",
-                            "Rol",
-                            "Rol_Usuario",
-                            "Seccion",
-                            "Sentido",
-                            "Subseccion",
-                            "TipoActor",
-                            "TipoIndicador",
-                            "UnidadMedicion",
-                            "Usuario",
-                            "Variable",
-                            "VariablesPorIndicador"
+                            "actor",
+                            "articulo",
+                            "frecuencia",
+                            "fuente",
+                            "fuentesPorIndicador",
+                            "indicador",
+                            "literal",
+                            "numeral",
+                            "paragrafo",
+                            "represenVisual",
+                            "represenVisualPorIndicador",
+                            "responsablesPorIndicador",
+                            "resultadoIndicador",
+                            "rol",
+                            "rol_Usuario",
+                            "seccion",
+                            "sentido",
+                            "subseccion",
+                            "tipoActor",
+                            "tipoIndicador",
+                            "unidadMedicion",
+                            "usuario",
+                            "variable",
+                            "variablesPorIndicador"
                         });
                         break;
                     case "Verificador":
                          rutas.AddRange(new[]
                         {
                             //"indicadores/consulta"//
-                            "Actor",
-                            "Articulo",
-                            "Frecuencia",
-                            "Fuente",
-                            "FuentesPorIndicador",
-                            "Indicador",
-                            "Literal",
-                            "Numeral",
-                            "Paragrafo",
-                            "RepresenVisual",
-                            "RepresenVisualPorIndicador",
-                            "ResponsablesPorIndicador",
-                            "ResultadoIndicador",
-                            "Seccion",
-                            "Sentido",
-                            "Subseccion",
-                            "TipoActor",
-                            "TipoIndicador",
-                            "UnidadMedicion",
-                            "Variable",
-                            "VariablesPorIndicador"
+                            "actor",
+                            "articulo",
+                            "frecuencia",
+                            "fuente",
+                            "fuentesPorIndicador",
+                            "indicador",
+                            "literal",
+                            "numeral",
+                            "paragrafo",
+                            "represenVisual",
+                            "represenVisualPorIndicador",
+                            "responsablesPorIndicador",
+                            "resultadoIndicador",
+                            "seccion",
+                            "sentido",
+                            "subseccion",
+                            "tipoActor",
+                            "tipoIndicador",
+                            "unidadMedicion",
+                            "variable",
+                            "variablesPorIndicador"
                         });
                     
                         break;
@@ -171,27 +171,27 @@ namespace PIndicadores.Controllers
                         {
                             /*"indicadores/consulta",
                             "indicadores/modificar"*/
-                            "Actor",
-                            "Articulo",
-                            "Frecuencia",
-                            "Fuente",
-                            "FuentesPorIndicador",
-                            "Indicador",
-                            "Literal",
-                            "Numeral",
-                            "Paragrafo",
-                            "RepresenVisual",
-                            "RepresenVisualPorIndicador",
-                            "ResponsablesPorIndicador",
-                            "ResultadoIndicador",
-                            "Seccion",
-                            "Sentido",
-                            "Subseccion",
-                            "TipoActor",
-                            "TipoIndicador",
-                            "UnidadMedicion",
-                            "Variable",
-                            "VariablesPorIndicador"
+                            "actor",
+                            "articulo",
+                            "frecuencia",
+                            "fuente",
+                            "fuentesPorIndicador",
+                            "indicador",
+                            "literal",
+                            "numeral",
+                            "paragrafo",
+                            "represenVisual",
+                            "represenVisualPorIndicador",
+                            "responsablesPorIndicador",
+                            "resultadoIndicador",
+                            "reccion",
+                            "sentido",
+                            "subseccion",
+                            "tipoActor",
+                            "tipoIndicador",
+                            "unidadMedicion",
+                            "variable",
+                            "variablesPorIndicador"
                         });
                         break;
 
@@ -201,27 +201,27 @@ namespace PIndicadores.Controllers
                             /*"usuarios/consulta",
                             "indicadores/consulta",
                             "modulos/consulta"*/
-                            "Actor",
-                            "Articulo",
-                            "Frecuencia",
-                            "Fuente",
-                            "FuentesPorIndicador",
-                            "Indicador",
-                            "Literal",
-                            "Numeral",
-                            "Paragrafo",
-                            "RepresenVisual",
-                            "RepresenVisualPorIndicador",
-                            "ResponsablesPorIndicador",
-                            "ResultadoIndicador",
-                            "Seccion",
-                            "Sentido",
-                            "Subseccion",
-                            "TipoActor",
-                            "TipoIndicador",
-                            "UnidadMedicion",
-                            "Variable",
-                            "VariablesPorIndicador"
+                            "actor",
+                            "articulo",
+                            "frecuencia",
+                            "fuente",
+                            "fuentesPorIndicador",
+                            "indicador",
+                            "literal",
+                            "numeral",
+                            "paragrafo",
+                            "represenVisual",
+                            "represenVisualPorIndicador",
+                            "responsablesPorIndicador",
+                            "resultadoIndicador",
+                            "seccion",
+                            "sentido",
+                            "subseccion",
+                            "tipoActor",
+                            "tipoIndicador",
+                            "unidadMedicion",
+                            "variable",
+                            "variablesPorIndicador"
                         });
                         break;
 
@@ -234,7 +234,6 @@ namespace PIndicadores.Controllers
                         break;
                 }
             }
-
             return rutas.Distinct().ToList();
         }
     }

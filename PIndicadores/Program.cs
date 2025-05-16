@@ -1,4 +1,7 @@
 using System; // Agrega esta línea para usar TimeSpan
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Microsoft.AspNetCore.Builder; // Importa el espacio de nombres necesario para construir y configurar la aplicación web.
 using Microsoft.Extensions.DependencyInjection; // Importa el espacio de nombres necesario para configurar los servicios de la aplicación.
 using Microsoft.Extensions.Hosting; // Importa el espacio de nombres necesario para trabajar con diferentes entornos (desarrollo, producción, etc.).
@@ -9,6 +12,37 @@ var builder = WebApplication.CreateBuilder(args); // Crea un constructor para co
 builder.Services.AddControllers(); // Agrega soporte para controladores MVC, permitiendo manejar solicitudes HTTP a través de acciones en los controladores.
 builder.Services.AddSingleton<ControlConexion>(); // Registra el servicio ControlConexion como singleton, asegurando que haya una única instancia compartida en toda la aplicación.
 builder.Services.AddSingleton<TokenService>(); // Registra el servicio TokenService como singleton, asegurando una única instancia compartida en toda la aplicación.
+
+builder.Services.AddSwaggerGen();
+
+// JWT Config
+var configuration = builder.Configuration;
+var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
+var issuer = configuration["Jwt:Issuer"];
+var audience = configuration["Jwt:Audience"];
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddControllers();
+builder.Services.AddSingleton<ControlConexion>();
+builder.Services.AddSingleton<TokenService>();
+
 
 builder.Services.AddCors(options => // Configura CORS (Cross-Origin Resource Sharing) para la aplicación.
 {
@@ -31,6 +65,8 @@ var app = builder.Build(); // Construye la aplicación con las configuraciones e
 if (app.Environment.IsDevelopment()) // Verifica si la aplicación está en el entorno de desarrollo.
 {
     app.UseDeveloperExceptionPage(); // Habilita una página de excepción detallada, útil para depurar errores durante el desarrollo.
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 
@@ -38,8 +74,8 @@ app.UseHttpsRedirection(); // Fuerza la redirección de las solicitudes HTTP a H
 
 app.UseCors("AllowAllOrigins"); // Aplica la política de CORS que permite solicitudes desde cualquier origen.
 app.UseSession(); // Habilita el soporte de sesiones en el middleware de la aplicación.
+app.UseAuthentication();
 app.UseAuthorization(); // Habilita el middleware de autorización, necesario para proteger rutas que requieren autenticación o autorización.
 app.MapControllers(); // Configura las rutas de los controladores para manejar las solicitudes HTTP.
 
 app.Run(); // Inicia la aplicación y comienza a escuchar las solicitudes entrantes.
-
