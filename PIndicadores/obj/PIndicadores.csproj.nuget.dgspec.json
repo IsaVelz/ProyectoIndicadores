@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj": {}
+    "C:\\Users\\samue\\Source\\Repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj": {}
   },
   "projects": {
-    "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj": {
+    "C:\\Users\\samue\\Source\\Repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj",
+        "projectUniqueName": "C:\\Users\\samue\\Source\\Repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj",
         "projectName": "PIndicadores",
-        "projectPath": "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj",
+        "projectPath": "C:\\Users\\samue\\Source\\Repos\\ProyectoIndicadores2\\PIndicadores\\PIndicadores.csproj",
         "packagesPath": "C:\\Users\\samue\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\samue\\source\\repos\\ProyectoIndicadores2\\PIndicadores\\obj\\",
         "projectStyle": "PackageReference",
