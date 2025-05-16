@@ -26,11 +26,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
@@ -42,8 +46,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABwAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-16T20:47:29.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-16T20:47:29.907Z"
             },
             {
               "$type": "Document",
@@ -55,8 +58,7 @@
               "RelativeToolTip": "Controllers\\IndicadorController.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAgwCEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T05:16:31.518Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-15T05:16:31.518Z"
             },
             {
               "$type": "Document",
@@ -81,8 +83,7 @@
               "RelativeToolTip": "Models\\GuardarIndicador.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T22:54:24.142Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-14T22:54:24.142Z"
             }
           ]
         }

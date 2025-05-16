@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PIndicadores")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe723d46d8d584e834375007529a5b1d4b1e14b6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7547d8e7e69cc193c59635f63865ba0511bccdfb")]
 [assembly: System.Reflection.AssemblyProductAttribute("PIndicadores")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PIndicadores")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
